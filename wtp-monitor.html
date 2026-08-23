@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WTP Monitor</title>
+<style>
+  :root{
+    --navy:#0f1f4d;
+    --navy-2:#16296b;
+    --blue:#2563eb;
+    --blue-light:#e8efff;
+    --green:#16a34a;
+    --line:#e3e6ec;
+    --text-dim:#6b7280;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    padding:24px 0;
+  }
+  .frame{
+    width:390px;
+    min-height:844px;
+    background:#fff;
+    border:1px solid var(--line);
+    overflow:hidden;
+    position:relative;
+    padding-bottom:40px;
+  }
+
+  /* Header */
+  .header{
+    background:#fff;
+    padding:28px 24px 22px;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+  }
+  .brand h1{
+    margin:0;
+    font-size:30px;
+    font-weight:800;
+    color:var(--navy);
+    letter-spacing:-0.5px;
+  }
+  .brand p{
+    margin:4px 0 0;
+    font-size:14px;
+    color:#5b6478;
+    font-weight:500;
+  }
+  .datetime{
+    text-align:right;
+  }
+  .datetime .date{
+    color:var(--blue);
+    font-weight:700;
+    font-size:14px;
+  }
+  .datetime .time{
+    color:var(--navy);
+    font-weight:700;
+    font-size:15px;
+    margin-top:2px;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* Section titles */
+  .section{
+    padding:22px 20px 4px;
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .section-head h2{
+    margin:0;
+    font-size:19px;
+    font-weight:800;
+    color:var(--navy);
+  }
+  .see-all{
+    font-size:13.5px;
+    color:var(--blue);
+    font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+    background:none;
+    border:none;
+  }
+
+  /* Parameter carousel */
+  .param-scroll{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding:2px 20px 6px;
+    margin:0 -20px;
+    scroll-snap-type:x mandatory;
+  }
+  .param-scroll::-webkit-scrollbar{display:none;}
+  .param-card{
+    flex:0 0 190px;
+    scroll-snap-align:start;
+    background:#fff;
+    border-radius:16px;
+    border:1px solid var(--line);
+    padding:20px 18px 16px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    transition:transform .15s ease;
+  }
+  .param-card:active{transform:scale(0.98);}
+  .param-label{
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:10px;
+  }
+  .param-value{
+    font-size:34px;
+    font-weight:800;
+    color:var(--navy);
+    line-height:1;
+  }
+  .param-unit{
+    font-size:12.5px;
+    color:var(--text-dim);
+    margin-top:4px;
+    font-weight:600;
+  }
+  .param-status{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--green);
+    margin-top:10px;
+  }
+  .param-range{
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:2px;
+  }
+  .sparkline{
+    margin-top:12px;
+    height:34px;
+    width:100%;
+  }
+
+  .dots{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin:14px 0 6px;
+  }
+  .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--line);
+    transition:.2s;
+  }
+  .dot.active{
+    width:20px;
+    border-radius:5px;
+    background:var(--blue);
+  }
+
+  /* Category cards */
+  .cat-card{
+    background:#fff;
+    border-radius:16px;
+    border:1px solid var(--line);
+    padding:20px 20px 16px;
+    margin-bottom:16px;
+  }
+  .cat-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .cat-head h3{
+    margin:0;
+    font-size:18px;
+    font-weight:800;
+    color:var(--navy);
+  }
+  .badge{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--green);
+    background:#e9f9ef;
+    padding:4px 10px;
+    border-radius:20px;
+  }
+  .cat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    row-gap:10px;
+    column-gap:12px;
+  }
+  .cat-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:14.5px;
+  }
+  .cat-row .label{
+    color:var(--navy);
+    font-weight:700;
+  }
+  .cat-row .value{
+    font-weight:700;
+    color:#1f2937;
+  }
+  .cat-row .value.blue{color:var(--blue);}
+  .cat-row .value.green{color:var(--green);}
+  .cat-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:1px solid var(--line);
+    margin-top:14px;
+    padding-top:12px;
+  }
+  .detail-btn{
+    background:none;
+    border:none;
+    color:var(--blue);
+    font-weight:700;
+    font-size:14.5px;
+    cursor:pointer;
+    padding:0;
+  }
+  .arrow{
+    color:var(--blue);
+    font-size:17px;
+    font-weight:700;
+  }
+
+  .fab{
+    position:absolute;
+    right:20px;
+    bottom:24px;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#2f6bf0,#1d4ed8);
+    color:#fff;
+    font-size:28px;
+    font-weight:400;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 12px 24px -6px rgba(37,99,235,0.55);
+    cursor:pointer;
+    z-index:20;
+  }
+  .fab:active{transform:scale(0.94);}
+
+  /* Modal */
+  .overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(15,23,42,0.45);
+    display:none;
+    align-items:flex-end;
+    z-index:30;
+  }
+  .overlay.show{display:flex;}
+  .sheet{
+    background:#fff;
+    width:100%;
+    border-radius:24px 24px 0 0;
+    padding:22px 22px 28px;
+    max-height:80%;
+    overflow-y:auto;
+    animation:slideup .25s ease;
+  }
+  @keyframes slideup{
+    from{transform:translateY(30px);opacity:0;}
+    to{transform:translateY(0);opacity:1;}
+  }
+  .sheet-handle{
+    width:40px;height:5px;border-radius:3px;
+    background:#e2e6ef;margin:0 auto 16px;
+  }
+  .sheet h3{
+    margin:0 0 4px;
+    font-size:20px;
+    color:var(--navy);
+    font-weight:800;
+  }
+  .sheet p.sub{
+    margin:0 0 18px;
+    color:var(--text-dim);
+    font-size:13.5px;
+  }
+  .sheet-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #f2f4f8;
+    font-size:14.5px;
+  }
+  .sheet-row .k{color:var(--text-dim);font-weight:600;}
+  .sheet-row .v{color:var(--navy);font-weight:700;}
+  .close-btn{
+    margin-top:18px;
+    width:100%;
+    padding:14px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    border-radius:14px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+  }
+  .field{margin-bottom:14px;}
+  .field label{
+    display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;
+  }
+  .field input, .field select{
+    width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #e5e9f2;
+    font-size:14.5px;font-family:inherit;color:var(--navy);
+  }
+  .toast{
+    position:absolute;
+    left:50%;
+    bottom:100px;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--navy);
+    color:#fff;
+    padding:12px 20px;
+    border-radius:14px;
+    font-size:14px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    z-index:40;
+    white-space:nowrap;
+    box-shadow:0 10px 24px rgba(0,0,0,0.25);
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="brand">
+        <h1>WTP Monitor</h1>
+        <p>Water Treatment Plant</p>
+      </div>
+      <div class="datetime">
+        <div class="date" id="dateNow">20 Mei 2024</div>
+        <div class="time" id="timeNow">09:45:23</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Parameter Sumur</h2>
+      <button class="see-all" onclick="showToast('Menampilkan semua parameter')">Lihat Semua</button>
+    </div>
+
+    <div class="param-scroll" id="paramScroll">
+      <div class="param-card ph">
+        <div class="param-label">pH</div>
+        <div class="param-value">7.32</div>
+        <div class="param-unit">pH</div>
+        <div class="param-status">Normal</div>
+        <div class="param-range">6.5 - 8.5</div>
+        <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+          <polyline fill="none" stroke="#c7d2fe" stroke-width="2" points="0,20 15,14 30,22 45,10 60,18 75,8 90,20 105,12 120,24 135,14 150,20 165,10 180,18 190,14"/>
+        </svg>
+      </div>
+      <div class="param-card tds">
+        <div class="param-label">TDS</div>
+        <div class="param-value">256</div>
+        <div class="param-unit">ppm</div>
+        <div class="param-status">Normal</div>
+        <div class="param-range">0 - 500 ppm</div>
+        <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+          <polyline fill="none" stroke="#99e6e0" stroke-width="2" points="0,24 15,16 30,20 45,12 60,22 75,14 90,10 105,18 120,12 135,22 150,16 165,20 180,10 190,16"/>
+        </svg>
+      </div>
+      <div class="param-card chlor">
+        <div class="param-label">Chlor Resid</div>
+        <div class="param-value">0.6</div>
+        <div class="param-unit">ppm</div>
+        <div class="param-status">Normal</div>
+        <div class="param-range">0.2 - 1.0</div>
+        <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+          <polyline fill="none" stroke="#dcc9fb" stroke-width="2" points="0,18 15,24 30,12 45,20 60,10 75,18 90,14 105,22 120,10 135,18 150,12 165,20 180,14 190,18"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="dots" id="dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <h2>Kategori</h2>
+    </div>
+
+    <div id="catList"></div>
+  </div>
+
+  <button class="fab" onclick="openAdd()">+</button>
+
+  <!-- Detail sheet -->
+  <div class="overlay" id="detailOverlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h3 id="detailTitle">Sumur</h3>
+      <p class="sub">Data pembacaan terbaru</p>
+      <div id="detailRows"></div>
+      <button class="close-btn" onclick="closeOverlay('detailOverlay')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Add reading sheet -->
+  <div class="overlay" id="addOverlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h3>Tambah Pembacaan</h3>
+      <p class="sub">Masukkan data pengukuran baru</p>
+      <div class="field">
+        <label>Kategori</label>
+        <select id="addCat">
+          <option>Sumur</option>
+          <option>Tandon Sumur</option>
+          <option>Tandon Produksi</option>
+          <option>Sand Filter</option>
+          <option>Carbon Filter</option>
+          <option>Softener</option>
+          <option>Boiler</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>pH</label>
+        <input type="number" step="0.01" placeholder="cth. 7.30" id="addPh">
+      </div>
+      <div class="field">
+        <label>TDS (ppm)</label>
+        <input type="number" placeholder="cth. 280" id="addTds">
+      </div>
+      <div class="field">
+        <label>Chlorine Residu (ppm)</label>
+        <input type="number" step="0.01" placeholder="cth. 0.50" id="addCl">
+      </div>
+      <button class="close-btn" onclick="submitAdd()">Simpan Pembacaan</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+  // Live clock
+  const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  function tick(){
+    const now = new Date();
+    document.getElementById('dateNow').textContent = now.getDate() + " " + bulan[now.getMonth()] + " " + now.getFullYear();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const s = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('timeNow').textContent = h+":"+m+":"+s;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Carousel dots follow scroll
+  const scrollEl = document.getElementById('paramScroll');
+  const dots = document.querySelectorAll('#dots .dot');
+  scrollEl.addEventListener('scroll', () => {
+    const cardWidth = 204; // width + gap
+    const idx = Math.round(scrollEl.scrollLeft / cardWidth);
+    dots.forEach((d,i) => d.classList.toggle('active', i===idx));
+  });
+
+  // Category data — each has a status and a set of fields relevant to that stage
+  const categories = [
+    { name:"Sumur", status:"Aktif",
+      fields:[
+        {label:"pH", value:"7.23", cls:"blue"},
+        {label:"Chlorine", value:"0.60 ppm", cls:"blue"},
+        {label:"TDS", value:"312 ppm"},
+        {label:"TH", value:"110 ppm"},
+        {label:"Chlorine Residu", value:"0.42 ppm", cls:"green"}
+      ]},
+    { name:"Tandon Sumur", status:"Aktif",
+      fields:[
+        {label:"pH", value:"7.28", cls:"blue"},
+        {label:"Chlorine", value:"0.80 ppm", cls:"blue"},
+        {label:"TDS", value:"278 ppm"},
+        {label:"TH", value:"118 ppm"},
+        {label:"Chlorine Residu", value:"0.56 ppm", cls:"green"}
+      ]},
+    { name:"Tandon Produksi", status:"Aktif",
+      fields:[
+        {label:"pH", value:"7.31", cls:"blue"},
+        {label:"Chlorine", value:"0.70 ppm", cls:"blue"},
+        {label:"TDS", value:"265 ppm"},
+        {label:"TH", value:"112 ppm"},
+        {label:"Chlorine Residu", value:"0.45 ppm", cls:"green"}
+      ]},
+    { name:"Sand Filter", status:"Aktif",
+      fields:[
+        {label:"Tekanan Masuk", value:"2.1 bar", cls:"blue"},
+        {label:"Tekanan Keluar", value:"1.8 bar", cls:"blue"},
+        {label:"Selisih Tekanan", value:"0.3 bar", cls:"green"},
+        {label:"Terakhir Backwash", value:"3 hari lalu"}
+      ]},
+    { name:"Carbon Filter", status:"Aktif",
+      fields:[
+        {label:"Tekanan", value:"1.9 bar", cls:"blue"},
+        {label:"Sisa Kapasitas", value:"68%", cls:"green"},
+        {label:"Klorin Keluar", value:"0.02 ppm", cls:"blue"},
+        {label:"Terakhir Ganti Media", value:"45 hari lalu"}
+      ]},
+    { name:"Softener", status:"Aktif",
+      fields:[
+        {label:"Hardness Keluar", value:"8 ppm", cls:"green"},
+        {label:"Sisa Garam", value:"72%", cls:"blue"},
+        {label:"Regenerasi Berikutnya", value:"2 hari lagi"},
+        {label:"Terakhir Regenerasi", value:"Kemarin"}
+      ]},
+    { name:"Boiler", status:"Aktif",
+      fields:[
+        {label:"Tekanan", value:"8.2 bar", cls:"blue"},
+        {label:"Suhu", value:"178°C", cls:"blue"},
+        {label:"Level Air", value:"82%", cls:"green"},
+        {label:"Terakhir Servis", value:"12 hari lalu"}
+      ]}
+  ];
+
+  function renderCategories(){
+    const list = document.getElementById('catList');
+    list.innerHTML = categories.map((cat, idx) => `
+      <div class="cat-card">
+        <div class="cat-head">
+          <h3>${cat.name}</h3>
+          <span class="badge">${cat.status}</span>
+        </div>
+        <div class="cat-grid">
+          ${cat.fields.map(f => `
+            <div class="cat-row">
+              <span class="label">${f.label}</span>
+              <span class="value ${f.cls || ''}">${f.value}</span>
+            </div>`).join('')}
+        </div>
+        <div class="cat-foot">
+          <button class="detail-btn" onclick="openDetail(${idx})">Lihat Detail</button>
+          <span class="arrow">→</span>
+        </div>
+      </div>
+    `).join('');
+  }
+  renderCategories();
+
+  function openDetail(idx){
+    const cat = categories[idx];
+    document.getElementById('detailTitle').textContent = cat.name;
+    document.getElementById('detailRows').innerHTML = cat.fields.map(f => `
+      <div class="sheet-row"><span class="k">${f.label}</span><span class="v">${f.value}</span></div>
+    `).join('');
+    document.getElementById('detailOverlay').classList.add('show');
+  }
+  function openAdd(){
+    document.getElementById('addOverlay').classList.add('show');
+  }
+  function closeOverlay(id){
+    document.getElementById(id).classList.remove('show');
+  }
+  document.querySelectorAll('.overlay').forEach(o => {
+    o.addEventListener('click', e => { if(e.target === o) o.classList.remove('show'); });
+  });
+  function submitAdd(){
+    const cat = document.getElementById('addCat').value;
+    closeOverlay('addOverlay');
+    showToast('Pembacaan untuk ' + cat + ' disimpan');
+    document.getElementById('addPh').value='';
+    document.getElementById('addTds').value='';
+    document.getElementById('addCl').value='';
+  }
+  let toastTimer;
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+  }
+</script>
+</body>
+</html>
