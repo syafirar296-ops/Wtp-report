@@ -19,18 +19,15 @@
     margin:0;
     font-family:'Segoe UI', system-ui, -apple-system, sans-serif;
     background:#fff;
-    display:flex;
-    justify-content:center;
-    padding:24px 0;
   }
-  .frame{
-    width:390px;
-    min-height:844px;
+  .app{
+    width:100%;
+    max-width:440px;
+    margin:0 auto;
     background:#fff;
-    border:1px solid var(--line);
-    overflow:hidden;
     position:relative;
-    padding-bottom:40px;
+    min-height:100vh;
+    padding-bottom:100px;
   }
 
   /* Header */
@@ -73,6 +70,26 @@
     margin-top:2px;
     font-variant-numeric:tabular-nums;
   }
+  .header-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:10px;
+  }
+  .profile-btn{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:#eef2fb;
+    border:1px solid var(--line);
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+  }
+  .profile-btn:active{background:#e2e8f9;}
 
   /* Section titles */
   .section{
@@ -204,14 +221,34 @@
     border-radius:20px;
   }
   .cat-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
+    display:flex;
+    flex-direction:column;
     row-gap:10px;
-    column-gap:12px;
+  }
+  .cat-grid-head{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    column-gap:10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:2px;
+  }
+  .cat-grid-head span{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
+  .cat-grid-head span:last-child,
+  .cat-grid-head span:nth-child(2){
+    text-align:right;
   }
   .cat-row{
-    display:flex;
-    justify-content:space-between;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    column-gap:10px;
+    align-items:center;
     font-size:14.5px;
   }
   .cat-row .label{
@@ -221,9 +258,73 @@
   .cat-row .value{
     font-weight:700;
     color:#1f2937;
+    text-align:right;
+  }
+  .cat-row .std{
+    text-align:right;
+    color:var(--text-dim);
+    font-weight:600;
+    font-size:13px;
   }
   .cat-row .value.blue{color:var(--blue);}
   .cat-row .value.green{color:var(--green);}
+  .cat-row .value.orange{color:#d97706;}
+  .cat-row .value.red{color:#dc2626;}
+  .kv-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:14.5px;
+  }
+  .kv-row .label{
+    color:var(--text-dim);
+    font-weight:600;
+  }
+  .kv-row .value{
+    font-weight:700;
+    color:#1f2937;
+  }
+  .kv-row .value.green{color:var(--green);}
+
+  .list-entry{
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .list-entry:last-child{border-bottom:none;}
+  .list-entry-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  .list-entry-head h4{
+    margin:0;
+    font-size:15px;
+    font-weight:800;
+    color:var(--navy);
+  }
+
+  .seg-control{
+    display:flex;
+    background:#f3f4f8;
+    border-radius:12px;
+    padding:4px;
+    margin-bottom:16px;
+  }
+  .seg-btn{
+    flex:1;
+    border:none;
+    background:none;
+    padding:10px 8px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--text-dim);
+    border-radius:9px;
+    cursor:pointer;
+  }
+  .seg-btn.active{
+    background:var(--navy);
+    color:#fff;
+  }
   .cat-foot{
     display:flex;
     justify-content:space-between;
@@ -247,10 +348,56 @@
     font-weight:700;
   }
 
-  .fab{
-    position:absolute;
-    right:20px;
+  .fab-wrap{
+    position:fixed;
+    right:max(20px, calc(50% - 220px + 20px));
     bottom:24px;
+    z-index:50;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .fab-menu{
+    display:flex;
+    flex-direction:column;
+    align-self:flex-end;
+    min-width:190px;
+    margin-bottom:10px;
+    opacity:0;
+    transform:translateY(8px);
+    pointer-events:none;
+    transition:.18s ease;
+    background:var(--navy);
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 20px -8px rgba(15,31,77,0.35);
+  }
+  .fab-menu.show{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .fab-option{
+    background:none;
+    border:none;
+    border-bottom:1px solid rgba(255,255,255,0.14);
+    color:#fff;
+    font-weight:700;
+    font-size:14.5px;
+    padding:15px 22px;
+    cursor:pointer;
+    white-space:nowrap;
+    text-align:left;
+  }
+  .fab-option:last-child{
+    border-bottom:none;
+  }
+  .fab-option:active{
+    background:rgba(255,255,255,0.12);
+  }
+  .fab{
+    position:static;
+    align-self:flex-end;
     width:56px;
     height:56px;
     border-radius:50%;
@@ -264,28 +411,69 @@
     justify-content:center;
     box-shadow:0 12px 24px -6px rgba(37,99,235,0.55);
     cursor:pointer;
-    z-index:20;
+    transition:transform .15s ease;
   }
+  .fab.open{transform:rotate(45deg);}
   .fab:active{transform:scale(0.94);}
 
   /* Modal */
   .overlay{
-    position:absolute;
+    position:fixed;
     inset:0;
     background:rgba(15,23,42,0.45);
     display:none;
     align-items:flex-end;
-    z-index:30;
+    justify-content:center;
+    z-index:60;
   }
   .overlay.show{display:flex;}
   .sheet{
     background:#fff;
     width:100%;
+    max-width:440px;
     border-radius:24px 24px 0 0;
     padding:22px 22px 28px;
     max-height:80%;
     overflow-y:auto;
     animation:slideup .25s ease;
+  }
+  .sheet.sheet-full{
+    height:100%;
+    max-height:100%;
+    border-radius:0;
+    animation:none;
+  }
+  .overlay.overlay-full{
+    align-items:stretch;
+    justify-content:stretch;
+  }
+  .overlay-full .sheet{
+    max-width:none;
+  }
+  .full-sheet-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:2px;
+  }
+  .full-sheet-head h3{
+    margin:0;
+    font-size:20px;
+    color:var(--navy);
+    font-weight:800;
+  }
+  .sheet-close-x{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--navy);
+    font-size:15px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
   @keyframes slideup{
     from{transform:translateY(30px);opacity:0;}
@@ -336,7 +524,7 @@
     font-size:14.5px;font-family:inherit;color:var(--navy);
   }
   .toast{
-    position:absolute;
+    position:fixed;
     left:50%;
     bottom:100px;
     transform:translateX(-50%) translateY(20px);
@@ -349,7 +537,7 @@
     opacity:0;
     pointer-events:none;
     transition:.25s;
-    z-index:40;
+    z-index:70;
     white-space:nowrap;
     box-shadow:0 10px 24px rgba(0,0,0,0.25);
   }
@@ -357,10 +545,22 @@
     opacity:1;
     transform:translateX(-50%) translateY(0);
   }
+  .hist-entry{
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .hist-entry:last-child{border-bottom:none;}
+  .hist-date{
+    font-weight:700;
+    color:var(--navy);
+    font-size:14px;
+    margin-bottom:6px;
+  }
 </style>
 </head>
 <body>
-<div class="frame">
+<div class="app">
 
   <div class="header">
     <div class="header-top">
@@ -368,9 +568,17 @@
         <h1>WTP Monitor</h1>
         <p>Water Treatment Plant</p>
       </div>
-      <div class="datetime">
-        <div class="date" id="dateNow">20 Mei 2024</div>
-        <div class="time" id="timeNow">09:45:23</div>
+      <div class="header-right">
+        <button class="profile-btn" onclick="openProfile()" aria-label="Profil">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"></path>
+          </svg>
+        </button>
+        <div class="datetime">
+          <div class="date" id="dateNow">20 Mei 2024</div>
+          <div class="time" id="timeNow">09:45:23</div>
+        </div>
       </div>
     </div>
   </div>
@@ -430,25 +638,33 @@
     <div id="catList"></div>
   </div>
 
-  <button class="fab" onclick="openAdd()">+</button>
-
-  <!-- Detail sheet -->
-  <div class="overlay" id="detailOverlay">
-    <div class="sheet">
-      <div class="sheet-handle"></div>
-      <h3 id="detailTitle">Sumur</h3>
-      <p class="sub">Data pembacaan terbaru</p>
-      <div id="detailRows"></div>
-      <button class="close-btn" onclick="closeOverlay('detailOverlay')">Tutup</button>
+  <div class="fab-wrap">
+    <div class="fab-menu" id="fabMenu">
+      <button class="fab-option" onclick="chooseFab('input')">Input Data</button>
+      <button class="fab-option" onclick="chooseFab('history')">History</button>
+      <button class="fab-option" onclick="chooseFab('chemical')">Chemical</button>
+      <button class="fab-option" onclick="chooseFab('equipment')">Equipment</button>
+      <button class="fab-option" onclick="chooseFab('schedule')">Schedule</button>
     </div>
+    <button class="fab" id="fabBtn" onclick="toggleFabMenu()">+</button>
   </div>
 
   <!-- Add reading sheet -->
-  <div class="overlay" id="addOverlay">
-    <div class="sheet">
-      <div class="sheet-handle"></div>
-      <h3>Tambah Pembacaan</h3>
+  <div class="overlay overlay-full" id="addOverlay">
+    <div class="sheet sheet-full">
+      <div class="full-sheet-head">
+        <h3>Tambah Pembacaan</h3>
+        <button class="sheet-close-x" onclick="closeOverlay('addOverlay')">✕</button>
+      </div>
       <p class="sub">Masukkan data pengukuran baru</p>
+      <div class="field">
+        <label>Tanggal Input</label>
+        <input type="date" id="addDate">
+      </div>
+      <div class="field">
+        <label>Nama Operator</label>
+        <input type="text" placeholder="cth. Budi Santoso" id="addOperator">
+      </div>
       <div class="field">
         <label>Kategori</label>
         <select id="addCat">
@@ -474,6 +690,92 @@
         <input type="number" step="0.01" placeholder="cth. 0.50" id="addCl">
       </div>
       <button class="close-btn" onclick="submitAdd()">Simpan Pembacaan</button>
+    </div>
+  </div>
+
+  <!-- History sheet -->
+  <div class="overlay overlay-full" id="historyOverlay">
+    <div class="sheet sheet-full">
+      <div class="full-sheet-head">
+        <h3>History</h3>
+        <button class="sheet-close-x" onclick="closeOverlay('historyOverlay')">✕</button>
+      </div>
+      <p class="sub">Riwayat pembacaan per kategori</p>
+      <div class="field">
+        <label>Kategori</label>
+        <select id="histCat" onchange="renderHistoryList(this.value)">
+          <option>Sumur</option>
+          <option>Tandon Sumur</option>
+          <option>Tandon Produksi</option>
+          <option>Sand Filter</option>
+          <option>Carbon Filter</option>
+          <option>Softener</option>
+          <option>Boiler</option>
+        </select>
+      </div>
+      <div id="historyRows"></div>
+      <button class="close-btn" onclick="closeOverlay('historyOverlay')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Chemical sheet -->
+  <div class="overlay overlay-full" id="chemicalOverlay">
+    <div class="sheet sheet-full">
+      <div class="full-sheet-head">
+        <h3>Chemical</h3>
+        <button class="sheet-close-x" onclick="closeOverlay('chemicalOverlay')">✕</button>
+      </div>
+      <p class="sub">Stok bahan kimia saat ini</p>
+      <div id="chemicalRows"></div>
+      <button class="close-btn" onclick="closeOverlay('chemicalOverlay')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Equipment sheet -->
+  <div class="overlay overlay-full" id="equipmentOverlay">
+    <div class="sheet sheet-full">
+      <div class="full-sheet-head">
+        <h3>Equipment</h3>
+        <button class="sheet-close-x" onclick="closeOverlay('equipmentOverlay')">✕</button>
+      </div>
+      <p class="sub">Status peralatan & jadwal servis berikutnya</p>
+      <div id="equipmentRows"></div>
+      <button class="close-btn" onclick="closeOverlay('equipmentOverlay')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Schedule sheet -->
+  <div class="overlay overlay-full" id="scheduleOverlay">
+    <div class="sheet sheet-full">
+      <div class="full-sheet-head">
+        <h3>Schedule</h3>
+        <button class="sheet-close-x" onclick="closeOverlay('scheduleOverlay')">✕</button>
+      </div>
+      <p class="sub">Jadwal perawatan</p>
+      <div class="seg-control" id="segControl">
+        <button class="seg-btn active" data-type="preventive" onclick="setScheduleType('preventive')">Preventive</button>
+        <button class="seg-btn" data-type="corrective" onclick="setScheduleType('corrective')">Corrective Action</button>
+      </div>
+      <div id="scheduleRows"></div>
+      <button class="close-btn" onclick="closeOverlay('scheduleOverlay')">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Profile / login sheet -->
+  <div class="overlay" id="profileOverlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h3>Profil</h3>
+      <p class="sub">Masuk untuk mengelola akun</p>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" placeholder="Masukkan username" id="profileUser">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="Masukkan password" id="profilePass">
+      </div>
+      <button class="close-btn" onclick="submitProfile()">Masuk</button>
     </div>
   </div>
 
@@ -507,55 +809,59 @@
   const categories = [
     { name:"Sumur", status:"Aktif",
       fields:[
-        {label:"pH", value:"7.23", cls:"blue"},
-        {label:"Chlorine", value:"0.60 ppm", cls:"blue"},
-        {label:"TDS", value:"312 ppm"},
-        {label:"TH", value:"110 ppm"},
-        {label:"Chlorine Residu", value:"0.42 ppm", cls:"green"}
+        {label:"pH", value:"7.23", cls:"blue", std:"6.5 - 8.5"},
+        {label:"Chlorine", value:"0.60 ppm", cls:"blue", std:"0.2 - 1.0 ppm"},
+        {label:"TDS", value:"312 ppm", std:"0 - 500 ppm"},
+        {label:"TH", value:"110 ppm", std:"0 - 150 ppm"},
+        {label:"Chlorine Residu", value:"0.42 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
       ]},
     { name:"Tandon Sumur", status:"Aktif",
       fields:[
-        {label:"pH", value:"7.28", cls:"blue"},
-        {label:"Chlorine", value:"0.80 ppm", cls:"blue"},
-        {label:"TDS", value:"278 ppm"},
-        {label:"TH", value:"118 ppm"},
-        {label:"Chlorine Residu", value:"0.56 ppm", cls:"green"}
+        {label:"pH", value:"7.28", cls:"blue", std:"6.5 - 8.5"},
+        {label:"Chlorine", value:"0.80 ppm", cls:"blue", std:"0.2 - 1.0 ppm"},
+        {label:"TDS", value:"278 ppm", std:"0 - 500 ppm"},
+        {label:"TH", value:"118 ppm", std:"0 - 150 ppm"},
+        {label:"Chlorine Residu", value:"0.56 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
       ]},
     { name:"Tandon Produksi", status:"Aktif",
       fields:[
-        {label:"pH", value:"7.31", cls:"blue"},
-        {label:"Chlorine", value:"0.70 ppm", cls:"blue"},
-        {label:"TDS", value:"265 ppm"},
-        {label:"TH", value:"112 ppm"},
-        {label:"Chlorine Residu", value:"0.45 ppm", cls:"green"}
+        {label:"pH", value:"7.31", cls:"blue", std:"6.5 - 8.5"},
+        {label:"Chlorine", value:"0.70 ppm", cls:"blue", std:"0.2 - 1.0 ppm"},
+        {label:"TDS", value:"265 ppm", std:"0 - 500 ppm"},
+        {label:"TH", value:"112 ppm", std:"0 - 150 ppm"},
+        {label:"Chlorine Residu", value:"0.45 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
       ]},
     { name:"Sand Filter", status:"Aktif",
       fields:[
-        {label:"Tekanan Masuk", value:"2.1 bar", cls:"blue"},
-        {label:"Tekanan Keluar", value:"1.8 bar", cls:"blue"},
-        {label:"Selisih Tekanan", value:"0.3 bar", cls:"green"},
-        {label:"Terakhir Backwash", value:"3 hari lalu"}
+        {label:"pH", value:"7.20", cls:"blue", std:"6.5 - 8.5"},
+        {label:"Chlorine", value:"0.55 ppm", cls:"blue", std:"0.2 - 1.0 ppm"},
+        {label:"TDS", value:"270 ppm", std:"0 - 500 ppm"},
+        {label:"TH", value:"108 ppm", std:"0 - 150 ppm"},
+        {label:"Chlorine Residu", value:"0.40 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
       ]},
     { name:"Carbon Filter", status:"Aktif",
       fields:[
-        {label:"Tekanan", value:"1.9 bar", cls:"blue"},
-        {label:"Sisa Kapasitas", value:"68%", cls:"green"},
-        {label:"Klorin Keluar", value:"0.02 ppm", cls:"blue"},
-        {label:"Terakhir Ganti Media", value:"45 hari lalu"}
+        {label:"pH", value:"7.18", cls:"blue", std:"6.5 - 8.5"},
+        {label:"Chlorine", value:"0.30 ppm", cls:"blue", std:"0.2 - 1.0 ppm"},
+        {label:"TDS", value:"250 ppm", std:"0 - 500 ppm"},
+        {label:"TH", value:"105 ppm", std:"0 - 150 ppm"},
+        {label:"Chlorine Residu", value:"0.20 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
       ]},
     { name:"Softener", status:"Aktif",
       fields:[
-        {label:"Hardness Keluar", value:"8 ppm", cls:"green"},
-        {label:"Sisa Garam", value:"72%", cls:"blue"},
-        {label:"Regenerasi Berikutnya", value:"2 hari lagi"},
-        {label:"Terakhir Regenerasi", value:"Kemarin"}
+        {label:"pH", value:"7.25", cls:"blue", std:"6.5 - 8.5"},
+        {label:"Chlorine", value:"0.35 ppm", cls:"blue", std:"0.2 - 1.0 ppm"},
+        {label:"TDS", value:"240 ppm", std:"0 - 500 ppm"},
+        {label:"TH", value:"8 ppm", std:"0 - 10 ppm"},
+        {label:"Chlorine Residu", value:"0.25 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
       ]},
     { name:"Boiler", status:"Aktif",
       fields:[
-        {label:"Tekanan", value:"8.2 bar", cls:"blue"},
-        {label:"Suhu", value:"178°C", cls:"blue"},
-        {label:"Level Air", value:"82%", cls:"green"},
-        {label:"Terakhir Servis", value:"12 hari lalu"}
+        {label:"pH", value:"9.10", cls:"blue", std:"8.5 - 11.0"},
+        {label:"Chlorine", value:"0.10 ppm", cls:"blue", std:"0 - 0.2 ppm"},
+        {label:"TDS", value:"180 ppm", std:"0 - 3500 ppm"},
+        {label:"TH", value:"5 ppm", std:"0 - 5 ppm"},
+        {label:"Chlorine Residu", value:"0.05 ppm", cls:"green", std:"0 - 0.2 ppm"}
       ]}
   ];
 
@@ -568,31 +874,61 @@
           <span class="badge">${cat.status}</span>
         </div>
         <div class="cat-grid">
+          <div class="cat-grid-head">
+            <span>Parameter</span>
+            <span>Hasil</span>
+            <span>Standar</span>
+          </div>
           ${cat.fields.map(f => `
             <div class="cat-row">
               <span class="label">${f.label}</span>
               <span class="value ${f.cls || ''}">${f.value}</span>
+              <span class="std">${f.std || '-'}</span>
             </div>`).join('')}
-        </div>
-        <div class="cat-foot">
-          <button class="detail-btn" onclick="openDetail(${idx})">Lihat Detail</button>
-          <span class="arrow">→</span>
         </div>
       </div>
     `).join('');
   }
   renderCategories();
 
-  function openDetail(idx){
-    const cat = categories[idx];
-    document.getElementById('detailTitle').textContent = cat.name;
-    document.getElementById('detailRows').innerHTML = cat.fields.map(f => `
-      <div class="sheet-row"><span class="k">${f.label}</span><span class="v">${f.value}</span></div>
-    `).join('');
-    document.getElementById('detailOverlay').classList.add('show');
+  // FAB menu: Input Data / History
+  const fabMenu = document.getElementById('fabMenu');
+  const fabBtn = document.getElementById('fabBtn');
+  function toggleFabMenu(){
+    fabMenu.classList.toggle('show');
+    fabBtn.classList.toggle('open');
   }
+  function closeFabMenu(){
+    fabMenu.classList.remove('show');
+    fabBtn.classList.remove('open');
+  }
+  function chooseFab(type){
+    closeFabMenu();
+    if(type === 'input') openAdd();
+    if(type === 'history') openHistory();
+    if(type === 'chemical') openChemical();
+    if(type === 'equipment') openEquipment();
+    if(type === 'schedule') openSchedule();
+  }
+  document.addEventListener('click', e => {
+    if(!e.target.closest('.fab-wrap')) closeFabMenu();
+  });
+
   function openAdd(){
+    // default the date field to today
+    const d = new Date();
+    document.getElementById('addDate').value = d.toISOString().split('T')[0];
     document.getElementById('addOverlay').classList.add('show');
+  }
+  function openProfile(){
+    document.getElementById('profileOverlay').classList.add('show');
+  }
+  function submitProfile(){
+    const user = document.getElementById('profileUser').value;
+    closeOverlay('profileOverlay');
+    showToast(user ? 'Masuk sebagai ' + user : 'Login dibatalkan');
+    document.getElementById('profileUser').value='';
+    document.getElementById('profilePass').value='';
   }
   function closeOverlay(id){
     document.getElementById(id).classList.remove('show');
@@ -602,12 +938,71 @@
   });
   function submitAdd(){
     const cat = document.getElementById('addCat').value;
+    const operator = document.getElementById('addOperator').value;
     closeOverlay('addOverlay');
-    showToast('Pembacaan untuk ' + cat + ' disimpan');
+    showToast((operator ? operator + ' — ' : '') + 'Pembacaan untuk ' + cat + ' disimpan');
+    document.getElementById('addOperator').value='';
     document.getElementById('addPh').value='';
     document.getElementById('addTds').value='';
     document.getElementById('addCl').value='';
   }
+
+  // History data per category (each entry mirrors the pH / Chlorine / TDS / TH / Chlorine Residu structure)
+  const historyData = {
+    "Sumur": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"7.23"},{label:"Chlorine",value:"0.60 ppm"},{label:"TDS",value:"312 ppm"},{label:"TH",value:"110 ppm"},{label:"Chlorine Residu",value:"0.42 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"7.20"},{label:"Chlorine",value:"0.58 ppm"},{label:"TDS",value:"308 ppm"},{label:"TH",value:"112 ppm"},{label:"Chlorine Residu",value:"0.40 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"7.26"},{label:"Chlorine",value:"0.62 ppm"},{label:"TDS",value:"315 ppm"},{label:"TH",value:"109 ppm"},{label:"Chlorine Residu",value:"0.44 ppm"}] }
+    ],
+    "Tandon Sumur": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"7.28"},{label:"Chlorine",value:"0.80 ppm"},{label:"TDS",value:"278 ppm"},{label:"TH",value:"118 ppm"},{label:"Chlorine Residu",value:"0.56 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"7.25"},{label:"Chlorine",value:"0.78 ppm"},{label:"TDS",value:"280 ppm"},{label:"TH",value:"120 ppm"},{label:"Chlorine Residu",value:"0.54 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"7.30"},{label:"Chlorine",value:"0.82 ppm"},{label:"TDS",value:"275 ppm"},{label:"TH",value:"117 ppm"},{label:"Chlorine Residu",value:"0.58 ppm"}] }
+    ],
+    "Tandon Produksi": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"7.31"},{label:"Chlorine",value:"0.70 ppm"},{label:"TDS",value:"265 ppm"},{label:"TH",value:"112 ppm"},{label:"Chlorine Residu",value:"0.45 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"7.29"},{label:"Chlorine",value:"0.68 ppm"},{label:"TDS",value:"262 ppm"},{label:"TH",value:"114 ppm"},{label:"Chlorine Residu",value:"0.43 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"7.33"},{label:"Chlorine",value:"0.72 ppm"},{label:"TDS",value:"268 ppm"},{label:"TH",value:"111 ppm"},{label:"Chlorine Residu",value:"0.47 ppm"}] }
+    ],
+    "Sand Filter": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"7.20"},{label:"Chlorine",value:"0.55 ppm"},{label:"TDS",value:"270 ppm"},{label:"TH",value:"108 ppm"},{label:"Chlorine Residu",value:"0.40 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"7.18"},{label:"Chlorine",value:"0.53 ppm"},{label:"TDS",value:"272 ppm"},{label:"TH",value:"110 ppm"},{label:"Chlorine Residu",value:"0.38 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"7.22"},{label:"Chlorine",value:"0.57 ppm"},{label:"TDS",value:"268 ppm"},{label:"TH",value:"106 ppm"},{label:"Chlorine Residu",value:"0.42 ppm"}] }
+    ],
+    "Carbon Filter": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"7.18"},{label:"Chlorine",value:"0.30 ppm"},{label:"TDS",value:"250 ppm"},{label:"TH",value:"105 ppm"},{label:"Chlorine Residu",value:"0.20 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"7.16"},{label:"Chlorine",value:"0.28 ppm"},{label:"TDS",value:"252 ppm"},{label:"TH",value:"107 ppm"},{label:"Chlorine Residu",value:"0.18 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"7.20"},{label:"Chlorine",value:"0.32 ppm"},{label:"TDS",value:"248 ppm"},{label:"TH",value:"104 ppm"},{label:"Chlorine Residu",value:"0.22 ppm"}] }
+    ],
+    "Softener": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"7.25"},{label:"Chlorine",value:"0.35 ppm"},{label:"TDS",value:"240 ppm"},{label:"TH",value:"8 ppm"},{label:"Chlorine Residu",value:"0.25 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"7.23"},{label:"Chlorine",value:"0.33 ppm"},{label:"TDS",value:"242 ppm"},{label:"TH",value:"9 ppm"},{label:"Chlorine Residu",value:"0.23 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"7.27"},{label:"Chlorine",value:"0.37 ppm"},{label:"TDS",value:"238 ppm"},{label:"TH",value:"7 ppm"},{label:"Chlorine Residu",value:"0.27 ppm"}] }
+    ],
+    "Boiler": [
+      { date:"20 Mei 2024, 09:45", fields:[{label:"pH",value:"9.10"},{label:"Chlorine",value:"0.10 ppm"},{label:"TDS",value:"180 ppm"},{label:"TH",value:"5 ppm"},{label:"Chlorine Residu",value:"0.05 ppm"}] },
+      { date:"19 Mei 2024, 09:40", fields:[{label:"pH",value:"9.05"},{label:"Chlorine",value:"0.09 ppm"},{label:"TDS",value:"178 ppm"},{label:"TH",value:"6 ppm"},{label:"Chlorine Residu",value:"0.04 ppm"}] },
+      { date:"18 Mei 2024, 09:38", fields:[{label:"pH",value:"9.14"},{label:"Chlorine",value:"0.11 ppm"},{label:"TDS",value:"182 ppm"},{label:"TH",value:"5 ppm"},{label:"Chlorine Residu",value:"0.06 ppm"}] }
+    ]
+  };
+
+  function openHistory(){
+    const cat = document.getElementById('histCat').value;
+    renderHistoryList(cat);
+    document.getElementById('historyOverlay').classList.add('show');
+  }
+  function renderHistoryList(catName){
+    const entries = historyData[catName] || [];
+    document.getElementById('historyRows').innerHTML = entries.map(e => `
+      <div class="hist-entry">
+        <div class="hist-date">${e.date}</div>
+        ${e.fields.map(f => `
+          <div class="sheet-row"><span class="k">${f.label}</span><span class="v">${f.value}</span></div>
+        `).join('')}
+      </div>
+    `).join('');
+  }
+
   let toastTimer;
   function showToast(msg){
     const t = document.getElementById('toast');
@@ -615,6 +1010,77 @@
     t.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+  }
+
+  // Chemical stock
+  const chemicalData = [
+    { name:"Kaporit (Chlorine)", stock:"45 kg", status:"Cukup", cls:"green" },
+    { name:"Tawas (Coagulant)", stock:"12 kg", status:"Rendah", cls:"orange" },
+    { name:"Anti Scalant", stock:"30 L", status:"Cukup", cls:"green" },
+    { name:"Soda Ash", stock:"20 kg", status:"Cukup", cls:"green" }
+  ];
+  function openChemical(){
+    document.getElementById('chemicalRows').innerHTML = chemicalData.map(c => `
+      <div class="list-entry">
+        <div class="list-entry-head"><h4>${c.name}</h4><span class="value ${c.cls}">${c.status}</span></div>
+        <div class="kv-row"><span class="label">Stok</span><span class="value">${c.stock}</span></div>
+      </div>
+    `).join('');
+    document.getElementById('chemicalOverlay').classList.add('show');
+  }
+
+  // Equipment status
+  const equipmentData = [
+    { name:"Pompa Sumur", status:"Aktif", next:"Servis berikutnya: 10 Jun 2024" },
+    { name:"Pompa Distribusi", status:"Aktif", next:"Servis berikutnya: 5 Jun 2024" },
+    { name:"Sand Filter", status:"Aktif", next:"Backwash berikutnya: 23 Mei 2024" },
+    { name:"Carbon Filter", status:"Aktif", next:"Ganti media: 15 Jun 2024" },
+    { name:"Softener", status:"Aktif", next:"Regenerasi: 27 Mei 2024" },
+    { name:"Boiler", status:"Aktif", next:"Servis berikutnya: 10 Jun 2024" }
+  ];
+  function openEquipment(){
+    document.getElementById('equipmentRows').innerHTML = equipmentData.map(e => `
+      <div class="list-entry">
+        <div class="list-entry-head"><h4>${e.name}</h4><span class="value green">${e.status}</span></div>
+        <div class="kv-row"><span class="label">${e.next}</span><span></span></div>
+      </div>
+    `).join('');
+    document.getElementById('equipmentOverlay').classList.add('show');
+  }
+
+  // Maintenance schedule
+  const scheduleData = {
+    preventive: [
+      { name:"Backwash Sand Filter", freq:"Setiap 3 hari", next:"23 Mei 2024" },
+      { name:"Ganti Media Carbon Filter", freq:"Setiap 45 hari", next:"15 Jun 2024" },
+      { name:"Regenerasi Softener", freq:"Setiap 7 hari", next:"27 Mei 2024" },
+      { name:"Servis Boiler", freq:"Setiap 30 hari", next:"10 Jun 2024" },
+      { name:"Kalibrasi Sensor pH", freq:"Setiap 14 hari", next:"3 Jun 2024" }
+    ],
+    corrective: [
+      { name:"Kebocoran Pipa Tandon Produksi", freq:"Dilaporkan 18 Mei 2024", next:"Selesai" },
+      { name:"Pompa Sumur Bermasalah", freq:"Dilaporkan 15 Mei 2024", next:"Selesai" },
+      { name:"Sensor TDS Error", freq:"Dilaporkan 10 Mei 2024", next:"Selesai" }
+    ]
+  };
+  let currentScheduleType = 'preventive';
+  function setScheduleType(type){
+    currentScheduleType = type;
+    document.querySelectorAll('#segControl .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+    renderSchedule(type);
+  }
+  function renderSchedule(type){
+    const items = scheduleData[type] || [];
+    document.getElementById('scheduleRows').innerHTML = items.map(s => `
+      <div class="list-entry">
+        <div class="list-entry-head"><h4>${s.name}</h4><span class="value blue">${s.next}</span></div>
+        <div class="kv-row"><span class="label">${s.freq}</span><span></span></div>
+      </div>
+    `).join('');
+  }
+  function openSchedule(){
+    setScheduleType(currentScheduleType);
+    document.getElementById('scheduleOverlay').classList.add('show');
   }
 </script>
 </body>
