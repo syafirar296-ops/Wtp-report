@@ -192,6 +192,38 @@
     background:var(--blue);
   }
 
+  /* Search bar */
+  .search-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#f3f4f8;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 14px;
+    margin-bottom:16px;
+    color:var(--text-dim);
+  }
+  .search-wrap input{
+    border:none;
+    background:none;
+    outline:none;
+    flex:1;
+    font-size:14.5px;
+    color:var(--navy);
+    font-family:inherit;
+  }
+  .search-wrap input::placeholder{color:var(--text-dim);}
+
+  /* Footer */
+  .app-footer{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:12.5px;
+    font-weight:600;
+    padding:26px 0 6px;
+  }
+
   /* Category cards */
   .cat-card{
     background:#fff;
@@ -284,6 +316,20 @@
     color:#1f2937;
   }
   .kv-row .value.green{color:var(--green);}
+  .kv-row-head{
+    display:flex;
+    justify-content:space-between;
+    padding-bottom:8px;
+    margin-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .kv-row-head span{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
 
   .list-entry{
     padding:14px 0;
@@ -515,13 +561,63 @@
     font-size:15px;
     cursor:pointer;
   }
+  .link-btn{
+    display:block;
+    margin:2px 0 0;
+    background:none;
+    border:none;
+    color:var(--blue);
+    font-weight:700;
+    font-size:13.5px;
+    text-align:right;
+    width:100%;
+    cursor:pointer;
+    padding:0;
+  }
+  .divider{
+    display:flex;
+    align-items:center;
+    text-align:center;
+    margin:20px 0 14px;
+    color:var(--text-dim);
+    font-size:12.5px;
+    font-weight:600;
+  }
+  .divider::before,.divider::after{
+    content:"";
+    flex:1;
+    border-bottom:1px solid var(--line);
+  }
+  .divider span{padding:0 10px;}
+  .social-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:12px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:14px;
+    font-weight:700;
+    font-size:14.5px;
+    color:var(--navy);
+    cursor:pointer;
+    margin-top:10px;
+  }
+  .social-btn:active{background:#f7f8fb;}
   .field{margin-bottom:14px;}
   .field label{
     display:block;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px;
   }
-  .field input, .field select{
+  .field input, .field select, .field textarea{
     width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #e5e9f2;
     font-size:14.5px;font-family:inherit;color:var(--navy);
+  }
+  .field textarea{
+    resize:vertical;
+    min-height:110px;
+    line-height:1.5;
   }
   .toast{
     position:fixed;
@@ -586,48 +682,80 @@
   <div class="section">
     <div class="section-head">
       <h2>Parameter Sumur</h2>
-      <button class="see-all" onclick="showToast('Menampilkan semua parameter')">Lihat Semua</button>
-    </div>
+          <button class="see-all" onclick="showToast('Menampilkan semua parameter')">Lihat Semua</button>
+        </div>
 
-    <div class="param-scroll" id="paramScroll">
-      <div class="param-card ph">
-        <div class="param-label">pH</div>
-        <div class="param-value">7.32</div>
-        <div class="param-unit">pH</div>
-        <div class="param-status">Normal</div>
-        <div class="param-range">6.5 - 8.5</div>
-        <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
-          <polyline fill="none" stroke="#c7d2fe" stroke-width="2" points="0,20 15,14 30,22 45,10 60,18 75,8 90,20 105,12 120,24 135,14 150,20 165,10 180,18 190,14"/>
-        </svg>
-      </div>
-      <div class="param-card tds">
-        <div class="param-label">TDS</div>
-        <div class="param-value">256</div>
-        <div class="param-unit">ppm</div>
-        <div class="param-status">Normal</div>
-        <div class="param-range">0 - 500 ppm</div>
-        <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
-          <polyline fill="none" stroke="#99e6e0" stroke-width="2" points="0,24 15,16 30,20 45,12 60,22 75,14 90,10 105,18 120,12 135,22 150,16 165,20 180,10 190,16"/>
-        </svg>
-      </div>
-      <div class="param-card chlor">
-        <div class="param-label">Chlor Resid</div>
-        <div class="param-value">0.6</div>
-        <div class="param-unit">ppm</div>
-        <div class="param-status">Normal</div>
-        <div class="param-range">0.2 - 1.0</div>
-        <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
-          <polyline fill="none" stroke="#dcc9fb" stroke-width="2" points="0,18 15,24 30,12 45,20 60,10 75,18 90,14 105,22 120,10 135,18 150,12 165,20 180,14 190,18"/>
-        </svg>
-      </div>
-    </div>
+        <div class="param-scroll" id="paramScroll">
+          <div class="param-card ph">
+            <div class="param-label">pH</div>
+            <div class="param-value">7.32</div>
+            <div class="param-unit">pH</div>
+            <div class="param-status">Normal</div>
+            <div class="param-range">6.5 - 8.5</div>
+            <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#c7d2fe" stroke-width="2" points="0,20 15,14 30,22 45,10 60,18 75,8 90,20 105,12 120,24 135,14 150,20 165,10 180,18 190,14"/>
+            </svg>
+          </div>
+          <div class="param-card tds">
+            <div class="param-label">TDS</div>
+            <div class="param-value">256</div>
+            <div class="param-unit">ppm</div>
+            <div class="param-status">Normal</div>
+            <div class="param-range">0 - 500 ppm</div>
+            <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#99e6e0" stroke-width="2" points="0,24 15,16 30,20 45,12 60,22 75,14 90,10 105,18 120,12 135,22 150,16 165,20 180,10 190,16"/>
+            </svg>
+          </div>
+          <div class="param-card chlor">
+            <div class="param-label">Chlor Resid</div>
+            <div class="param-value">0.6</div>
+            <div class="param-unit">ppm</div>
+            <div class="param-status">Normal</div>
+            <div class="param-range">0.2 - 1.0</div>
+            <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#dcc9fb" stroke-width="2" points="0,18 15,24 30,12 45,20 60,10 75,18 90,14 105,22 120,10 135,18 150,12 165,20 180,14 190,18"/>
+            </svg>
+          </div>
+          <div class="param-card salinity">
+            <div class="param-label">Salinity</div>
+            <div class="param-value">0.15</div>
+            <div class="param-unit">ppt</div>
+            <div class="param-status">Normal</div>
+            <div class="param-range">0 - 0.5 ppt</div>
+            <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#a5d8ff" stroke-width="2" points="0,16 15,22 30,14 45,20 60,12 75,18 90,10 105,20 120,14 135,22 150,16 165,10 180,18 190,14"/>
+            </svg>
+          </div>
+          <div class="param-card ec">
+            <div class="param-label">EC</div>
+            <div class="param-value">480</div>
+            <div class="param-unit">µS/cm</div>
+            <div class="param-status">Normal</div>
+            <div class="param-range">0 - 1500 µS/cm</div>
+            <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#ffd8a8" stroke-width="2" points="0,20 15,12 30,22 45,14 60,20 75,10 90,18 105,24 120,12 135,20 150,14 165,22 180,10 190,16"/>
+            </svg>
+          </div>
+          <div class="param-card suhu">
+            <div class="param-label">Suhu</div>
+            <div class="param-value">28.5</div>
+            <div class="param-unit">°C</div>
+            <div class="param-status">Normal</div>
+            <div class="param-range">20 - 35°C</div>
+            <svg class="sparkline" viewBox="0 0 190 34" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#ffb3b3" stroke-width="2" points="0,22 15,14 30,20 45,10 60,18 75,24 90,12 105,20 120,14 135,10 150,22 165,16 180,20 190,12"/>
+            </svg>
+          </div>
+        </div>
 
-    <div class="dots" id="dots">
-      <div class="dot active"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
+        <div class="dots" id="dots">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
   </div>
 
   <div class="section">
@@ -635,8 +763,18 @@
       <h2>Kategori</h2>
     </div>
 
+    <div class="search-wrap">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Cari kategori (Sumur, Boiler, dll)" oninput="filterCategories(this.value)">
+    </div>
+
     <div id="catList"></div>
   </div>
+
+  <footer class="app-footer">©2026 WTP Monitor. All rights reserved</footer>
 
   <div class="fab-wrap">
     <div class="fab-menu" id="fabMenu">
@@ -649,14 +787,35 @@
     <button class="fab" id="fabBtn" onclick="toggleFabMenu()">+</button>
   </div>
 
+  <!-- Detail sheet -->
+  <div class="overlay" id="detailOverlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <h3 id="detailTitle">Sumur</h3>
+      <p class="sub">Data pembacaan terbaru</p>
+      <div id="detailRows"></div>
+      <button class="close-btn" onclick="closeOverlay('detailOverlay')">Tutup</button>
+    </div>
+  </div>
+
   <!-- Add reading sheet -->
   <div class="overlay overlay-full" id="addOverlay">
     <div class="sheet sheet-full">
       <div class="full-sheet-head">
-        <h3>Tambah Pembacaan</h3>
+        <h3>Tambah Data</h3>
         <button class="sheet-close-x" onclick="closeOverlay('addOverlay')">✕</button>
       </div>
-      <p class="sub">Masukkan data pengukuran baru</p>
+      <p class="sub">Pilih jenis data yang ingin diinput</p>
+      <div class="field">
+        <label>Jenis Input</label>
+        <select id="addType" onchange="setAddType(this.value)">
+          <option value="parameter">Pembacaan Parameter</option>
+          <option value="chemical">Chemical</option>
+          <option value="equipment">Equipment</option>
+          <option value="preventive">Schedule - Preventive</option>
+          <option value="corrective">Schedule - Corrective Action</option>
+        </select>
+      </div>
       <div class="field">
         <label>Tanggal Input</label>
         <input type="date" id="addDate">
@@ -665,31 +824,133 @@
         <label>Nama Operator</label>
         <input type="text" placeholder="cth. Budi Santoso" id="addOperator">
       </div>
-      <div class="field">
-        <label>Kategori</label>
-        <select id="addCat">
-          <option>Sumur</option>
-          <option>Tandon Sumur</option>
-          <option>Tandon Produksi</option>
-          <option>Sand Filter</option>
-          <option>Carbon Filter</option>
-          <option>Softener</option>
-          <option>Boiler</option>
-        </select>
+
+      <!-- Pembacaan Parameter fields -->
+      <div class="add-group" id="group-parameter">
+        <div class="field">
+          <label>Kategori</label>
+          <select id="addCat">
+            <option>Sumur</option>
+            <option>Tandon Sumur</option>
+            <option>Tandon Produksi</option>
+            <option>Sand Filter</option>
+            <option>Carbon Filter</option>
+            <option>Softener</option>
+            <option>Boiler</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>pH</label>
+          <input type="number" step="0.01" placeholder="cth. 7.30" id="addPh">
+        </div>
+        <div class="field">
+          <label>TDS (ppm)</label>
+          <input type="number" placeholder="cth. 280" id="addTds">
+        </div>
+        <div class="field">
+          <label>Chlorine Residu (ppm)</label>
+          <input type="number" step="0.01" placeholder="cth. 0.50" id="addCl">
+        </div>
+        <div class="field">
+          <label>Salinity (ppt)</label>
+          <input type="number" step="0.01" placeholder="cth. 0.15" id="addSalinity">
+        </div>
+        <div class="field">
+          <label>EC (µS/cm)</label>
+          <input type="number" placeholder="cth. 480" id="addEc">
+        </div>
+        <div class="field">
+          <label>Suhu (°C)</label>
+          <input type="number" step="0.1" placeholder="cth. 28.5" id="addSuhu">
+        </div>
       </div>
-      <div class="field">
-        <label>pH</label>
-        <input type="number" step="0.01" placeholder="cth. 7.30" id="addPh">
+
+      <!-- Chemical fields -->
+      <div class="add-group" id="group-chemical" style="display:none;">
+        <div class="field">
+          <label>Nama Chemical</label>
+          <select id="addChemName">
+            <option>Chlorine</option>
+            <option>Garam</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Jumlah Pemakaian</label>
+          <input type="text" placeholder="cth. 2 kg / 3 L" id="addChemUsage">
+        </div>
+        <div class="field">
+          <label>Sisa Stok</label>
+          <input type="text" placeholder="cth. 43 kg" id="addChemStock">
+        </div>
+        <div class="field">
+          <label>Keterangan</label>
+          <textarea rows="4" placeholder="Opsional — catatan tambahan mengenai pemakaian bahan kimia ini" id="addChemNote"></textarea>
+        </div>
       </div>
-      <div class="field">
-        <label>TDS (ppm)</label>
-        <input type="number" placeholder="cth. 280" id="addTds">
+
+      <!-- Equipment fields -->
+      <div class="add-group" id="group-equipment" style="display:none;">
+        <div class="field">
+          <label>Nama Equipment</label>
+          <select id="addEqName">
+            <option>Pompa Sumur</option>
+            <option>Pompa Distribusi</option>
+            <option>Sand Filter</option>
+            <option>Carbon Filter</option>
+            <option>Softener</option>
+            <option>Boiler</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="addEqStatus">
+            <option>Aktif</option>
+            <option>Maintenance</option>
+            <option>Non-aktif</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Catatan</label>
+          <textarea rows="4" placeholder="cth. Tekanan turun, sudah dicek dan disesuaikan. Perlu pemantauan lanjutan minggu depan." id="addEqNote"></textarea>
+        </div>
       </div>
-      <div class="field">
-        <label>Chlorine Residu (ppm)</label>
-        <input type="number" step="0.01" placeholder="cth. 0.50" id="addCl">
+
+      <!-- Preventive schedule fields -->
+      <div class="add-group" id="group-preventive" style="display:none;">
+        <div class="field">
+          <label>Nama Kegiatan</label>
+          <input type="text" placeholder="cth. Backwash Sand Filter" id="addPrevName">
+        </div>
+        <div class="field">
+          <label>Frekuensi</label>
+          <input type="text" placeholder="cth. Setiap 3 hari" id="addPrevFreq">
+        </div>
+        <div class="field">
+          <label>Tanggal Berikutnya</label>
+          <input type="date" id="addPrevNext">
+        </div>
       </div>
-      <button class="close-btn" onclick="submitAdd()">Simpan Pembacaan</button>
+
+      <!-- Corrective action fields -->
+      <div class="add-group" id="group-corrective" style="display:none;">
+        <div class="field">
+          <label>Nama Masalah</label>
+          <input type="text" placeholder="cth. Kebocoran pipa" id="addCorrName">
+        </div>
+        <div class="field">
+          <label>Tindakan</label>
+          <input type="text" placeholder="cth. Penggantian seal pipa" id="addCorrAction">
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="addCorrStatus">
+            <option>Selesai</option>
+            <option>Proses</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="close-btn" onclick="submitAdd()">Simpan Data</button>
     </div>
   </div>
 
@@ -725,7 +986,12 @@
         <h3>Chemical</h3>
         <button class="sheet-close-x" onclick="closeOverlay('chemicalOverlay')">✕</button>
       </div>
-      <p class="sub">Stok bahan kimia saat ini</p>
+      <p class="sub">Stok &amp; pemakaian bahan kimia</p>
+      <div class="seg-control" id="chemSegControl">
+        <button class="seg-btn active" data-type="stock" onclick="setChemTab('stock')">Stok</button>
+        <button class="seg-btn" data-type="usage" onclick="setChemTab('usage')">Pemakaian</button>
+        <button class="seg-btn" data-type="remaining" onclick="setChemTab('remaining')">Sisa Stok</button>
+      </div>
       <div id="chemicalRows"></div>
       <button class="close-btn" onclick="closeOverlay('chemicalOverlay')">Tutup</button>
     </div>
@@ -762,10 +1028,12 @@
   </div>
 
   <!-- Profile / login sheet -->
-  <div class="overlay" id="profileOverlay">
-    <div class="sheet">
-      <div class="sheet-handle"></div>
-      <h3>Profil</h3>
+  <div class="overlay overlay-full" id="profileOverlay">
+    <div class="sheet sheet-full">
+      <div class="full-sheet-head">
+        <h3>Profil</h3>
+        <button class="sheet-close-x" onclick="closeOverlay('profileOverlay')">✕</button>
+      </div>
       <p class="sub">Masuk untuk mengelola akun</p>
       <div class="field">
         <label>Username</label>
@@ -775,7 +1043,17 @@
         <label>Password</label>
         <input type="password" placeholder="Masukkan password" id="profilePass">
       </div>
+      <button class="link-btn" onclick="showToast('Link reset password dikirim')">Lupa Password?</button>
       <button class="close-btn" onclick="submitProfile()">Masuk</button>
+      <div class="divider"><span>atau masuk dengan</span></div>
+      <button class="social-btn" onclick="showToast('Masuk dengan Google')">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 5.9-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.4 21.3 7.4 24 12 24z"/><path fill="#FBBC05" d="M5.4 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4V6.5H1.4C.5 8.2 0 10.1 0 12s.5 3.8 1.4 5.5l4-3.1z"/><path fill="#EA4335" d="M12 4.7c1.8 0 3.4.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.4 0 3.4 2.7 1.4 6.5l4 3.1c.9-2.8 3.5-4.9 6.6-4.9z"/></svg>
+        Google
+      </button>
+      <button class="social-btn" onclick="showToast('Masuk dengan WhatsApp')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M12 0C5.4 0 0 5.4 0 12c0 2.1.6 4.1 1.6 5.9L0 24l6.3-1.6C8 23.4 10 24 12 24c6.6 0 12-5.4 12-12S18.6 0 12 0zm0 22c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-3.9 1 1-3.8-.2-.4C2.2 15.4 1.7 13.7 1.7 12 1.7 6.3 6.3 1.7 12 1.7S22.3 6.3 22.3 12 17.7 22 12 22z"/><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.5-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5C10.1 9 9.6 7.8 9.4 7.3c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2.1 3.1 5 4.4.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z"/></svg>
+        WhatsApp
+      </button>
     </div>
   </div>
 
@@ -814,6 +1092,11 @@
         {label:"TDS", value:"312 ppm", std:"0 - 500 ppm"},
         {label:"TH", value:"110 ppm", std:"0 - 150 ppm"},
         {label:"Chlorine Residu", value:"0.42 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.15 ppt", std:"0 - 0.5 ppt"},
+        {label:"EC", value:"480 µS/cm", std:"0 - 1500 µS/cm"},
+        {label:"Suhu", value:"28.5°C", std:"20 - 35°C"}
       ]},
     { name:"Tandon Sumur", status:"Aktif",
       fields:[
@@ -822,6 +1105,11 @@
         {label:"TDS", value:"278 ppm", std:"0 - 500 ppm"},
         {label:"TH", value:"118 ppm", std:"0 - 150 ppm"},
         {label:"Chlorine Residu", value:"0.56 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.14 ppt", std:"0 - 0.5 ppt"},
+        {label:"EC", value:"465 µS/cm", std:"0 - 1500 µS/cm"},
+        {label:"Suhu", value:"28.2°C", std:"20 - 35°C"}
       ]},
     { name:"Tandon Produksi", status:"Aktif",
       fields:[
@@ -830,6 +1118,11 @@
         {label:"TDS", value:"265 ppm", std:"0 - 500 ppm"},
         {label:"TH", value:"112 ppm", std:"0 - 150 ppm"},
         {label:"Chlorine Residu", value:"0.45 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.13 ppt", std:"0 - 0.5 ppt"},
+        {label:"EC", value:"450 µS/cm", std:"0 - 1500 µS/cm"},
+        {label:"Suhu", value:"27.8°C", std:"20 - 35°C"}
       ]},
     { name:"Sand Filter", status:"Aktif",
       fields:[
@@ -838,6 +1131,11 @@
         {label:"TDS", value:"270 ppm", std:"0 - 500 ppm"},
         {label:"TH", value:"108 ppm", std:"0 - 150 ppm"},
         {label:"Chlorine Residu", value:"0.40 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.14 ppt", std:"0 - 0.5 ppt"},
+        {label:"EC", value:"455 µS/cm", std:"0 - 1500 µS/cm"},
+        {label:"Suhu", value:"28.0°C", std:"20 - 35°C"}
       ]},
     { name:"Carbon Filter", status:"Aktif",
       fields:[
@@ -846,6 +1144,11 @@
         {label:"TDS", value:"250 ppm", std:"0 - 500 ppm"},
         {label:"TH", value:"105 ppm", std:"0 - 150 ppm"},
         {label:"Chlorine Residu", value:"0.20 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.12 ppt", std:"0 - 0.5 ppt"},
+        {label:"EC", value:"430 µS/cm", std:"0 - 1500 µS/cm"},
+        {label:"Suhu", value:"27.9°C", std:"20 - 35°C"}
       ]},
     { name:"Softener", status:"Aktif",
       fields:[
@@ -854,6 +1157,11 @@
         {label:"TDS", value:"240 ppm", std:"0 - 500 ppm"},
         {label:"TH", value:"8 ppm", std:"0 - 10 ppm"},
         {label:"Chlorine Residu", value:"0.25 ppm", cls:"green", std:"0.2 - 1.0 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.10 ppt", std:"0 - 0.3 ppt"},
+        {label:"EC", value:"410 µS/cm", std:"0 - 1200 µS/cm"},
+        {label:"Suhu", value:"27.6°C", std:"20 - 35°C"}
       ]},
     { name:"Boiler", status:"Aktif",
       fields:[
@@ -862,12 +1170,22 @@
         {label:"TDS", value:"180 ppm", std:"0 - 3500 ppm"},
         {label:"TH", value:"5 ppm", std:"0 - 5 ppm"},
         {label:"Chlorine Residu", value:"0.05 ppm", cls:"green", std:"0 - 0.2 ppm"}
+      ],
+      extraFields:[
+        {label:"Salinity", value:"0.05 ppt", std:"0 - 0.2 ppt"},
+        {label:"EC", value:"320 µS/cm", std:"0 - 800 µS/cm"},
+        {label:"Suhu", value:"85.0°C", std:"70 - 95°C"}
       ]}
   ];
 
-  function renderCategories(){
-    const list = document.getElementById('catList');
-    list.innerHTML = categories.map((cat, idx) => `
+  function renderCategories(list){
+    const data = list || categories;
+    const el = document.getElementById('catList');
+    if(data.length === 0){
+      el.innerHTML = '<p style="text-align:center;color:var(--text-dim);font-size:14px;padding:24px 0;">Kategori tidak ditemukan</p>';
+      return;
+    }
+    el.innerHTML = data.map((cat) => { const idx = categories.indexOf(cat); return `
       <div class="cat-card">
         <div class="cat-head">
           <h3>${cat.name}</h3>
@@ -886,10 +1204,43 @@
               <span class="std">${f.std || '-'}</span>
             </div>`).join('')}
         </div>
+        <div class="cat-foot">
+          <button class="detail-btn" onclick="openDetail(${idx})">Lihat Detail</button>
+          <span class="arrow">→</span>
+        </div>
       </div>
-    `).join('');
+    `; }).join('');
+  }
+
+  function filterCategories(query){
+    const q = query.trim().toLowerCase();
+    if(!q){ renderCategories(); return; }
+    renderCategories(categories.filter(c => c.name.toLowerCase().includes(q)));
   }
   renderCategories();
+
+  function openDetail(idx){
+    const cat = categories[idx];
+    const allFields = cat.fields.concat(cat.extraFields || []);
+    document.getElementById('detailTitle').textContent = cat.name;
+    document.getElementById('detailRows').innerHTML = `
+      <div class="cat-grid">
+        <div class="cat-grid-head">
+          <span>Parameter</span>
+          <span>Hasil</span>
+          <span>Standar</span>
+        </div>
+        ${allFields.map(f => `
+          <div class="cat-row">
+            <span class="label">${f.label}</span>
+            <span class="value ${f.cls || ''}">${f.value}</span>
+            <span class="std">${f.std || '-'}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    document.getElementById('detailOverlay').classList.add('show');
+  }
 
   // FAB menu: Input Data / History
   const fabMenu = document.getElementById('fabMenu');
@@ -918,7 +1269,14 @@
     // default the date field to today
     const d = new Date();
     document.getElementById('addDate').value = d.toISOString().split('T')[0];
+    document.getElementById('addType').value = 'parameter';
+    setAddType('parameter');
     document.getElementById('addOverlay').classList.add('show');
+  }
+  function setAddType(type){
+    ['parameter','chemical','equipment','preventive','corrective'].forEach(t => {
+      document.getElementById('group-' + t).style.display = (t === type) ? 'block' : 'none';
+    });
   }
   function openProfile(){
     document.getElementById('profileOverlay').classList.add('show');
@@ -937,14 +1295,36 @@
     o.addEventListener('click', e => { if(e.target === o) o.classList.remove('show'); });
   });
   function submitAdd(){
-    const cat = document.getElementById('addCat').value;
+    const type = document.getElementById('addType').value;
     const operator = document.getElementById('addOperator').value;
+    const prefix = operator ? operator + ' — ' : '';
+    let msg = 'Data disimpan';
+
+    if(type === 'parameter'){
+      const cat = document.getElementById('addCat').value;
+      msg = prefix + 'Pembacaan untuk ' + cat + ' disimpan';
+      ['addPh','addTds','addCl','addSalinity','addEc','addSuhu'].forEach(id => document.getElementById(id).value='');
+    } else if(type === 'chemical'){
+      const name = document.getElementById('addChemName').value;
+      msg = prefix + 'Pemakaian ' + name + ' disimpan';
+      ['addChemUsage','addChemStock','addChemNote'].forEach(id => document.getElementById(id).value='');
+    } else if(type === 'equipment'){
+      const name = document.getElementById('addEqName').value;
+      msg = prefix + 'Status ' + name + ' diperbarui';
+      document.getElementById('addEqNote').value='';
+    } else if(type === 'preventive'){
+      const name = document.getElementById('addPrevName').value;
+      msg = prefix + 'Jadwal preventive ' + (name || '') + ' disimpan';
+      ['addPrevName','addPrevFreq','addPrevNext'].forEach(id => document.getElementById(id).value='');
+    } else if(type === 'corrective'){
+      const name = document.getElementById('addCorrName').value;
+      msg = prefix + 'Corrective action ' + (name || '') + ' disimpan';
+      ['addCorrName','addCorrAction'].forEach(id => document.getElementById(id).value='');
+    }
+
     closeOverlay('addOverlay');
-    showToast((operator ? operator + ' — ' : '') + 'Pembacaan untuk ' + cat + ' disimpan');
+    showToast(msg);
     document.getElementById('addOperator').value='';
-    document.getElementById('addPh').value='';
-    document.getElementById('addTds').value='';
-    document.getElementById('addCl').value='';
   }
 
   // History data per category (each entry mirrors the pH / Chlorine / TDS / TH / Chlorine Residu structure)
@@ -1012,20 +1392,70 @@
     toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
   }
 
-  // Chemical stock
-  const chemicalData = [
-    { name:"Kaporit (Chlorine)", stock:"45 kg", status:"Cukup", cls:"green" },
-    { name:"Tawas (Coagulant)", stock:"12 kg", status:"Rendah", cls:"orange" },
-    { name:"Anti Scalant", stock:"30 L", status:"Cukup", cls:"green" },
-    { name:"Soda Ash", stock:"20 kg", status:"Cukup", cls:"green" }
+  // Chemical: stock in (purchase record), usage log, and current remaining stock
+  const chemicalStockData = [
+    { name:"Chlorine", stock:"50 kg", note:"Pembelian terakhir: 1 Mei 2024" },
+    { name:"Garam", stock:"100 kg", note:"Pembelian terakhir: 5 Mei 2024" }
   ];
+  const chemicalUsageData = [
+    { date:"20 Mei 2024", name:"Chlorine", qty:"2 kg", operator:"Budi Santoso" },
+    { date:"19 Mei 2024", name:"Garam", qty:"5 kg", operator:"Andi Wijaya" },
+    { date:"18 Mei 2024", name:"Chlorine", qty:"2.2 kg", operator:"Budi Santoso" },
+    { date:"16 Mei 2024", name:"Garam", qty:"4 kg", operator:"Siti Rahma" },
+    { date:"14 Mei 2024", name:"Chlorine", qty:"1.8 kg", operator:"Andi Wijaya" }
+  ];
+  const chemicalRemainingData = [
+    { name:"Chlorine", stock:"45 kg", status:"Cukup", cls:"green" },
+    { name:"Garam", stock:"80 kg", status:"Cukup", cls:"green" }
+  ];
+  let currentChemTab = 'stock';
+  function setChemTab(type){
+    currentChemTab = type;
+    document.querySelectorAll('#chemSegControl .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+    renderChemical(type);
+  }
+  function renderChemical(type){
+    const el = document.getElementById('chemicalRows');
+    if(type === 'usage'){
+      el.innerHTML = `
+        <div class="kv-row-head">
+          <span>Chemical</span>
+          <span>Jumlah</span>
+        </div>
+      ` + chemicalUsageData.map(u => `
+        <div class="list-entry">
+          <div class="list-entry-head"><h4>${u.name}</h4><span class="value blue">${u.qty}</span></div>
+          <div class="kv-row"><span class="label">${u.date}</span><span class="value">${u.operator}</span></div>
+        </div>
+      `).join('');
+    } else if(type === 'remaining'){
+      el.innerHTML = `
+        <div class="kv-row-head">
+          <span>Chemical</span>
+          <span>Sisa Stok</span>
+        </div>
+      ` + chemicalRemainingData.map(c => `
+        <div class="list-entry">
+          <div class="list-entry-head"><h4>${c.name}</h4><span class="value ${c.cls}">${c.status}</span></div>
+          <div class="kv-row"><span class="label">Sisa Stok</span><span class="value">${c.stock}</span></div>
+        </div>
+      `).join('');
+    } else {
+      el.innerHTML = `
+        <div class="kv-row-head">
+          <span>Chemical</span>
+          <span>Stok</span>
+        </div>
+      ` + chemicalStockData.map(c => `
+        <div class="list-entry">
+          <div class="list-entry-head"><h4>${c.name}</h4><span class="value blue">${c.stock}</span></div>
+          <div class="kv-row"><span class="label">${c.note}</span><span></span></div>
+        </div>
+      `).join('');
+    }
+  }
   function openChemical(){
-    document.getElementById('chemicalRows').innerHTML = chemicalData.map(c => `
-      <div class="list-entry">
-        <div class="list-entry-head"><h4>${c.name}</h4><span class="value ${c.cls}">${c.status}</span></div>
-        <div class="kv-row"><span class="label">Stok</span><span class="value">${c.stock}</span></div>
-      </div>
-    `).join('');
+    setChemTab(currentChemTab);
     document.getElementById('chemicalOverlay').classList.add('show');
   }
 
